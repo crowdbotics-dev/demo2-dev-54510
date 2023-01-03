@@ -66,11 +66,11 @@ const Calendar = ({
           <Text style={styles.timeSlot}>Time Slot</Text>
           <View style={styles.list}>
             {options.timeSlots.map((item, index) => <TouchableOpacity style={[styles.items, {
-              backgroundColor: timeSlot === item ? "#000" : "#FFF"
-            }]} onPress={() => selectTimeSlot(item)} key={index}>
+            backgroundColor: timeSlot === item ? "#000" : "#FFF"
+          }]} onPress={() => selectTimeSlot(item)} key={index}>
                 <Text style={{
-                  color: timeSlot === item ? "#FFF" : "#000"
-                }}>{item}</Text>
+              color: timeSlot === item ? "#FFF" : "#000"
+            }}>{item}</Text>
               </TouchableOpacity>)}
           </View>
           <View style={styles.mt15}>
@@ -79,10 +79,10 @@ const Calendar = ({
           </View>
           <View style={styles.button}>
             <Button disabled={!!(!timeSlot || !markedDates.selectedDate)} onPress={() => navigation.navigate("AppointmentForm", {
-              duration: duration,
-              timeSlot: timeSlot,
-              selectedDate: markedDates.selectedDate
-            })}>Next</Button>
+            duration: duration,
+            timeSlot: timeSlot,
+            selectedDate: markedDates.selectedDate
+          })}>Next</Button>
           </View>
         </View>
       </ScrollView>

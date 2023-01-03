@@ -59,10 +59,10 @@ const Appointment = ({
         <Text style={styles.calendarText}>Calendar</Text>
       </View>
       <CalendarStrip selectedDate={filterDate} daySelectionAnimation={{
-        type: "background",
-        duration: 10,
-        highlightColor: "#E6E6E6"
-      }} style={styles.vFIpjHzC} onDateSelected={date => setFilterDate(new Date(date).toISOString())} />
+      type: "background",
+      duration: 10,
+      highlightColor: "#E6E6E6"
+    }} style={styles.vFIpjHzC} onDateSelected={date => setFilterDate(new Date(date).toISOString())} />
       <View>
         <View style={styles.viewAll}>
           <Text style={styles.listText}>List of Appointments</Text>

@@ -44,8 +44,8 @@ const CreateAppointment = ({
     const shouldCreateHubSpotContact = options.createHubSpotContact;
     const shouldCreateHubSpotDeal = options.createHubSpotDeal;
     const shouldCreateSlackChannel = options.createSlackChannel;
-
     let folder = null;
+
     if (createSharedFolder) {
       folder = await createGoogleFolder(gOptions.url, tokens.accessToken, {
         folder_name: title,
@@ -108,6 +108,7 @@ const CreateAppointment = ({
           emails: attendeesList.map(item => item.email).toString()
         });
       }
+
       setIsLoading(false);
       navigation.replace("Home");
     }).catch(e => console.log(e));
@@ -194,11 +195,11 @@ const CreateAppointment = ({
           <Text style={styles.jZgRJHGs}>Time Slot</Text>
           <View style={styles.list}>
             {options.timeSlots.map((item, index) => <TouchableOpacity style={[styles.items, {
-              backgroundColor: timeSlot === item ? "#000" : "#FFF"
-            }]} onPress={() => selectTimeSlot(item)} key={index}>
+            backgroundColor: timeSlot === item ? "#000" : "#FFF"
+          }]} onPress={() => selectTimeSlot(item)} key={index}>
                 <Text style={{
-                  color: timeSlot === item ? "#FFF" : "#000"
-                }}>{item}</Text>
+              color: timeSlot === item ? "#FFF" : "#000"
+            }}>{item}</Text>
               </TouchableOpacity>)}
           </View>
           <View style={styles.button}>

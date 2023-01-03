@@ -33,16 +33,15 @@ const AppointmentModal = ({
         {modalItem?.attendees?.map((attendee, index) => extractDomain(attendee.email) === domain && !attendee.organizer && <View style={styles.attendee} key={index}>
               <Text style={styles.attendeeText}>{attendee.email}</Text>
             </View>)}
-        {clientParticipants?.length > 0 && (<>
+        {clientParticipants?.length > 0 && <>
           <Text style={[styles.text, styles.mt]}>Client Participants:</Text>
-          {clientParticipants?.map((attendee, index) =>
-          <View style={styles.attendee} key={index}>
+          {clientParticipants?.map((attendee, index) => <View style={styles.attendee} key={index}>
             <Text style={styles.attendeeText}>{attendee.email}</Text>
           </View>)}
           <Button height={24} onPress={() => setModalVisible(false)} style={styles.hide}>
             Enrich Contacts
           </Button>
-        </>)}
+        </>}
 
       </Fragment>;
   };
@@ -69,14 +68,12 @@ const AppointmentModal = ({
             {ParticipantsFromFirm(modalItem)}
 
           </View>
-          {modalItem?.attachments &&
-            <View style={styles.attendeeContainer}>
+          {modalItem?.attachments && <View style={styles.attendeeContainer}>
               <Text>Attachments:</Text>
               <TouchableOpacity onPress={() => handleOpenLink(modalItem?.attachments[0]?.fileUrl)}>
                 <Text>{modalItem?.attachments[0]?.fileUrl}</Text>
               </TouchableOpacity>
-            </View>
-          }
+            </View>}
         </ScrollView>
         <View style={styles.modalActionButton}>
           <Button height={40} onPress={() => setModalVisible(false)} style={styles.hide}>

@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { LogBox, StyleSheet, Text, Button } from "react-native";
 import Navigator from "./Navigator"; // @ts-ignore
+
 import { OptionsContext } from "@options";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
@@ -41,7 +42,7 @@ const Appointment = () => {
     GoogleSignin.hasPlayServices().then(hasPlayService => {
       if (hasPlayService) {
         if (options.webClientId && options.androidClientId && options.iosClientId) {
-          GoogleSignin.signIn().then((resp) => {
+          GoogleSignin.signIn().then(resp => {
             setIsToken(true);
           }).catch(e => {
             setIsToken(false);
