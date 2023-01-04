@@ -1,76 +1,54 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { LogBox, StyleSheet, Text, Button } from "react-native";
-import Navigator from "./Navigator"; // @ts-ignore
-
-import { OptionsContext } from "@options";
+import React, { useEffect, useState, Fragment, useContext } from "react";
+import Navigator from "./Navigator";
+import { LogBox } from "react-native";
+// @ts-ignore
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { OptionsContext } from "@options";
 
 const Appointment = () => {
   const options = useContext(OptionsContext);
   LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
   const [isToken, setIsToken] = useState(false);
-  const [errors, setErrors] = useState(null);
-  const scopesString = options.scopesString;
-  const scopes = scopesString.split(",");
-  useEffect(async () => {
-    if (options.webClientId && options.androidClientId && options.iosClientId) {
-      try {
-        GoogleSignin?.addScopes({
-          scopes: scopes
-        });
-        GoogleSignin?.configure({
-          scopes: scopes,
-          androidClientId: options.androidClientId,
-          iosClientId: options.iosClientId,
-          offlineAccess: true,
-          webClientId: options.webClientId
-        });
-        GoogleSignin?.getTokens().then(async () => {
-          setIsToken(true);
-        }).catch(() => {
-          setIsToken(false);
-        });
-      } catch (error) {
-        setErrors(error.message);
-      }
-    } else {
-      setErrors("webClientId, androidClientId and iosClientId keys are missing.");
-    }
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      scopes: ["https://www.googleapis.com/auth/calendar"],
+      androidClientId: options.androidClientId,
+      iosClientId: options.iosClientId,
+      offlineAccess: true,
+      webClientId: options.webClientId
+    });
+    GoogleSignin.getTokens().then(() => {
+      setIsToken(true);
+    }).catch(() => {
+      setIsToken(false);
+      googleSignin();
+    });
   }, []);
 
   const googleSignin = () => {
-    GoogleSignin.hasPlayServices().then(hasPlayService => {
+    GoogleSignin.hasPlayServices().then((hasPlayService) => {
       if (hasPlayService) {
-        if (options.webClientId && options.androidClientId && options.iosClientId) {
-          GoogleSignin.signIn().then(resp => {
-            setIsToken(true);
-          }).catch(e => {
-            setIsToken(false);
-            setErrors(e.message);
-          });
-        } else {
-          setErrors("webClientId, androidClientId and iosClientId keys are missing.");
-        }
+        GoogleSignin.signIn().then(() => {
+          setIsToken(true);
+        }).catch((e) => {
+          setIsToken(false);
+          console.log("Error: ", e);
+        });
       }
-    }).catch(e => {
+    }).catch((e) => {
       setIsToken(true);
-      setErrors(e.message);
+      console.log("Error: ", e);
     });
   };
 
-  return <Fragment>
-      {isToken ? <Navigator /> : <Button disabled={!!errors} title="Signin with google" onPress={googleSignin} />}
-      {errors && <Text style={styles.error}>{errors}</Text>}
-    </Fragment>;
+  return (
+    <Fragment>
+      { isToken && <Navigator />}
+    </Fragment>
+  );
 };
 
-const styles = StyleSheet.create({
-  error: {
-    display: "flex",
-    padding: 20,
-    color: "red"
-  }
-});
 export default {
   title: "Appointment",
   navigator: Appointment
